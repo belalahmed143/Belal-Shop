@@ -1,0 +1,1 @@
+web: gunicorn sundorban.wsgi --log-file
