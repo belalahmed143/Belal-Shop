@@ -1,0 +1,519 @@
+
+{% extends 'base.html' %}
+{% load static %}
+        {% block content %}
+        <main class="main">
+            <div class="intro-slider-container">
+                <div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{"nav": false}'>
+                    {% for b in banner %}
+                    {% if b.banner_type == 'Caro' %}
+                    <div class="intro-slide" style="background-image: url({{ b.image.url }});">
+                        <div class="container intro-content">
+                            <h3 class="intro-subtitle text-dark">{{ b.sub_title }}</h3><!-- End .h3 intro-subtitle -->
+                        <h class="intro-title text-dark">{{ b.title }}</h1><!-- End .intro-title -->
+                            <br>
+                            <a href="category.html" class="btn btn-primary">
+                                <span>Add to cart</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </a>
+                        </div><!-- End .container intro-content -->
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                        
+                    <!-- End .intro-slide -->
+                </div><!-- End .owl-carousel owl-simple -->
+
+                <span class="slider-loader text-white"></span><!-- End .slider-loader -->
+            </div><!-- End .intro-slider-container -->
+
+            <div class="brands-border owl-carousel owl-simple" data-toggle="owl" 
+                data-owl-options='{
+                    "nav": false, 
+                    "dots": false,
+                    "margin": 0,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":2
+                        },
+                        "420": {
+                            "items":3
+                        },
+                        "600": {
+                            "items":4
+                        },
+                        "900": {
+                            "items":5
+                        },
+                        "1024": {
+                            "items":6
+                        },
+                        "1360": {
+                            "items":7
+                        }
+                    }
+                }'>
+
+                
+                {% for b in brand %}
+                <a href="#" class="brand">
+                    <img src="{{ b.image.url }}" alt="Brand Name">
+                </a>
+                {% endfor %}
+                    
+            </div><!-- End .owl-carousel -->
+
+            <div class="banner-group">
+                <div class="container">
+                    <div class="row">
+                        {% for b in banner  %}               
+                        {% if b.banner_type == 'first_p_add' %}                         
+                        <div class="col-6 col-md-3">
+                            <div class="banner banner-overlay">
+                                <a href="#">
+                                    <img src="{{ b.image.url }}" alt="Banner">
+                                </a>
+                                <div class="banner-content banner-content-bottom">
+                                    <h4 class="banner-subtitle text-grey">{{ b.sub_title }}</h4><!-- End .banner-subtitle -->
+                                    <h3 class="banner-title text-white">{{ b.title }}</h3><!-- End .banner-title -->
+                                    <a href="#" class="btn btn-outline-white banner-link">Discover Now<i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-3 -->
+                        {% endif %}
+                        {% endfor %}
+                            
+  
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .banner-group -->
+
+            <div class="container">
+                <ul class="nav nav-pills nav-border-anim nav-big justify-content-center mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab" role="tab" aria-controls="products-featured-tab" aria-selected="true">Featured</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab" aria-controls="products-sale-tab" aria-selected="false">On Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="products-top-link" data-toggle="tab" href="#products-top-tab" role="tab" aria-controls="products-top-tab" aria-selected="false">Top Rated</a>
+                    </li>
+                </ul>
+            </div><!-- End .container -->
+
+            <div class="container-fluid">
+                <div class="tab-content tab-content-carousel">
+                    <div class="tab-pane p-0 fade show active" id="products-featured-tab" role="tabpanel" aria-labelledby="products-featured-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            {% for p in products %}
+                            {% if forloop.counter <= 8 %}
+                            {% if p.sale_type == 'Feature' %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    
+                                    {% if p.label == 'New' %}
+                                        <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                    {% elif p.label == 'Offer' %}
+                                        <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                    {% elif p.label == 'Out' %}
+                                    <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                    {% endif %}
+                                        
+                                    <a href="{% url 'product-detail' p.slug %}">                        
+                                        <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                        <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="{% url 'add-to-wishlist' p.slug %}" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        {% if p.discount_price %}
+                                        <span class="new-price">TK {{ p.discount_price }}</span>
+                                        <span class="old-price"><del>Was {{ p.price }}</del></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                        {% else %}
+                                        TK {{ p.price }}
+                                        {% endif %}
+                                    </div>
+                                    <!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="products-sale-tab" role="tabpanel" aria-labelledby="products-sale-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+
+                            {% for p in products %}
+                            {% if forloop.counter <= 8 %}
+                            {% if p.sale_type == 'OneSale' %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    
+                                    {% if p.label == 'New' %}
+                                        <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                    {% elif p.label == 'Offer' %}
+                                        <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                    {% elif p.label == 'Out' %}
+                                    <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                    {% endif %}
+                                        
+                                    <a href="{% url 'product-detail' p.slug %}">
+                                        <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                        <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                    </a>
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        {% if p.discount_price %}
+                                        <span class="new-price">TK {{ p.discount_price }}</span>
+                                        <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                        {% else %}
+                                        TK {{ p.price }}
+                                    {% endif %}
+                                    </div>
+                                    <!-- End .product-price -->
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="products-top-tab" role="tabpanel" aria-labelledby="products-top-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":5
+                                    },
+                                    "1600": {
+                                        "items":6,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+
+                        {% for p in products %}
+                        {% if forloop.counter <= 8 %}
+                        {% if p.sale_type == 'TopRate' %}
+                        <div class="product product-11 text-center">
+                            <figure class="product-media">
+                                
+                                {% if p.label == 'New' %}
+                                    <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                {% elif p.label == 'Offer' %}
+                                    <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                {% elif p.label == 'Out' %}
+                                <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                {% endif %}
+                                    
+                                <a href="{% url 'product-detail' p.slug %}">
+                                    <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                    <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                </a>
+                            </figure><!-- End .product-media -->
+
+                            <div class="product-body">
+                                <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    {% if p.discount_price %}
+                                    <span class="new-price">TK {{ p.discount_price }}</span>
+                                    <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                    {% else %}
+                                    TK {{ p.price }}
+                                {% endif %}
+                                </div>
+                                <!-- End .product-price -->
+                            </div><!-- End .product-body -->
+                            <div class="product-action">
+                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                            </div><!-- End .product-action -->
+                        </div><!-- End .product -->
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container-fluid -->
+
+            <div class="mb-5"></div><!-- End .mb-5 -->
+
+            <div class="container">
+                <div class="heading heading-center mb-3">
+                    <h2 class="title">Top Selling Products</h2><!-- End .title -->
+
+                    <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="top-all-link" data-toggle="tab" href="#top-all-tab" role="tab" aria-controls="top-all-tab" aria-selected="true">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-fur-link" data-toggle="tab" href="#top-fur-tab" role="tab" aria-controls="top-fur-tab" aria-selected="false">Furniture</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-decor-link" data-toggle="tab" href="#top-decor-tab" role="tab" aria-controls="top-decor-tab" aria-selected="false">Decoration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-light-link" data-toggle="tab" href="#top-light-tab" role="tab" aria-controls="top-light-tab" aria-selected="false">Lighting</a>
+                        </li>
+                    </ul>
+                </div><!-- End .heading -->
+
+                <div class="tab-content">
+                    <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel" aria-labelledby="top-all-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for p in products %}
+                                {% if forloop.counter <= 10 %}
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                        {% if p.label == 'New' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Offer' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Out' %}
+                                        <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'product-detail' p.slug %}">
+                                            <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                            <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                        </a>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                {% if p.discount_price %}
+                                                <span class="new-price">TK {{ p.discount_price }}</span>
+                                                <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                                {% else %}
+                                                TK {{ p.price }}
+                                            {% endif %}
+                                            </div>
+                                            <!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endif %}
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="top-fur-tab" role="tabpanel" aria-labelledby="top-fur-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for p in furniture %}                               
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                        {% if p.label == 'New' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Offer' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Out' %}
+                                        <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'product-detail' p.slug %}">
+                                            <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                            <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                        </a>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                {% if p.discount_price %}
+                                                <span class="new-price">TK {{ p.discount_price }}</span>
+                                                <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                                {% else %}
+                                                TK {{ p.price }}
+                                            {% endif %}
+                                            </div>
+                                            <!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="top-decor-tab" role="tabpanel" aria-labelledby="top-decor-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for p in decoration %}                               
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                        {% if p.label == 'New' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Offer' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Out' %}
+                                        <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'product-detail' p.slug %}">
+                                            <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                            <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                        </a>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                {% if p.discount_price %}
+                                                <span class="new-price">TK {{ p.discount_price }}</span>
+                                                <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                                {% else %}
+                                                TK {{ p.price }}
+                                            {% endif %}
+                                            </div>
+                                            <!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+
+                    <div class="tab-pane p-0 fade" id="top-light-tab" role="tabpanel" aria-labelledby="top-light-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for p in lighting %}                               
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-11 text-center">
+                                        <figure class="product-media">
+                                        {% if p.label == 'New' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Offer' %}
+                                            <span class="product-label label-circle label-new">{{ p.label }}</span>
+                                        {% elif p.label == 'Out' %}
+                                        <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'product-detail' p.slug %}">
+                                            <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                                            <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                                        </a>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                {% if p.discount_price %}
+                                                <span class="new-price">TK {{ p.discount_price }}</span>
+                                                <span class="old-price"><del>Was {{ p.price }}</del></span></span><span> saving(Tk{{ p.saving_price }}) {{ p.saving_percent }}%
+                                                {% else %}
+                                                TK {{ p.price }}
+                                            {% endif %}
+                                            </div>
+                                            <!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container -->
+        </main><!-- End .main -->
+        {% endblock %}

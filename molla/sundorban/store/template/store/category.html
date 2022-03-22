@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+{% for p in products %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="product product-11 text-center">
+            <figure class="product-media">
+                
+                {% if p.label == 'New' %}
+                    <span class="product-label label-circle label-new">{{ p.label }}</span>
+                {% elif p.label == 'Offer' %}
+                    <span class="product-label label-circle label-new">{{ p.label }}</span>
+                {% elif p.label == 'Out' %}
+                <span class="product-label label-circle label-sale">{{ p.label }}</span>
+                {% endif %}
+                    
+                <a href="{% url 'product-detail' p.slug %}">
+                    <img src="{{  p.image.url }}" alt="Product image" class="product-image">
+                    <img src="{{ p.hover_image.url }}" class="product-image-hover">
+                </a>
+            </figure><!-- End .product-media -->
+        
+            <div class="product-body">
+                <h3 class="product-title"><a href="product.html">{{ p.product_name }}</a></h3><!-- End .product-title -->
+                <div class="product-price">
+                    {% if p.discount_price %}
+                    <span class="new-price">TK {{ p.discount_price }}</span>
+                    <span class="old-price"><del>Was {{ p.price }}</del></span>
+                    {% else %}
+                    TK {{ p.price }}
+                {% endif %}
+                </div>
+                <!-- End .product-price -->
+            </div><!-- End .product-body -->
+            <div class="product-action">
+                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+            </div><!-- End .product-action -->
+        </div><!-- End .product -->
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+    
